@@ -118,9 +118,75 @@ Migration guide:
 
 ## Testing
 
-- Write tests for new features and bug fixes
-- Ensure all tests pass before submitting a PR
-- Run tests with: `pytest`
+We use `pytest` for testing. All code contributions should include tests.
+
+### Setting Up Testing Environment
+
+1. Install development dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+2. This will install:
+   - `pytest` - Testing framework
+   - `pytest-cov` - Code coverage plugin
+   - `pytest-asyncio` - Async testing support
+
+### Running Tests
+
+Run all tests:
+```bash
+pytest
+```
+
+Run tests with coverage report:
+```bash
+pytest --cov=pyaps --cov-report=term-missing
+```
+
+Run specific test file:
+```bash
+pytest tests/test_auth.py
+```
+
+Run specific test function:
+```bash
+pytest tests/test_auth.py::test_oauth_flow
+```
+
+### Writing Tests
+
+- Place test files in the `tests/` directory
+- Name test files with `test_` prefix (e.g., `test_auth.py`)
+- Name test functions with `test_` prefix (e.g., `def test_oauth_flow()`)
+- Write clear, descriptive test names that explain what is being tested
+- Include docstrings for complex tests
+- Aim for high test coverage (>80%)
+
+**Example test:**
+```python
+def test_authentication_with_valid_credentials():
+    """Test that authentication succeeds with valid credentials."""
+    client = auth.Client(client_id="valid_id", client_secret="valid_secret")
+    token = client.authenticate()
+    assert token is not None
+    assert token.access_token is not None
+```
+
+### Test Requirements
+
+- All new features must include tests
+- All bug fixes must include regression tests
+- Tests must pass on all supported Python versions (3.9, 3.10, 3.11, 3.12)
+- Tests must pass on all platforms (Linux, macOS, Windows)
+
+### Continuous Integration
+
+All pull requests automatically run tests via GitHub Actions on:
+- Multiple Python versions (3.9, 3.10, 3.11, 3.12)
+- Multiple operating systems (Ubuntu, Windows, macOS)
+
+PRs will only be merged if all tests pass.
 
 ## Pull Request Process
 

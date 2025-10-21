@@ -26,6 +26,41 @@ from pyaps import auth
 # Coming soon - SDK implementation in progress
 ```
 
+## Development
+
+### Setting Up Development Environment
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/voidbox-ai/pyaps.git
+   cd pyaps
+   ```
+
+2. Install in development mode with test dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+### Running Tests
+
+Run all tests:
+```bash
+pytest
+```
+
+Run with coverage report:
+```bash
+pytest --cov=pyaps --cov-report=term-missing
+```
+
+### Continuous Integration
+
+All pull requests are automatically tested via GitHub Actions on:
+- Python versions: 3.9, 3.10, 3.11, 3.12
+- Operating systems: Ubuntu, Windows, macOS
+
+Tests must pass before merging.
+
 ## Project Status
 
 This package is currently in early development (v0.0.1). The package name has been reserved on PyPI, and active development is underway.
