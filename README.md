@@ -32,7 +32,11 @@ This package is currently in early development (v0.0.1). The package name has be
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a Pull Request.
+
+### Quick Links for Contributors
+- [Contributing Guidelines](CONTRIBUTING.md) - Full contribution guide
+- [Commit Convention](.github/COMMIT_CONVENTION.md) - Quick reference for commit messages
 
 ## License
 
