@@ -67,11 +67,15 @@ This package is currently in early development (v0.0.1). The package name has be
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a Pull Request.
+py-aps is developed and maintained by **voidbox**. We welcome bug reports and feature requests through [GitHub Issues](https://github.com/voidbox-ai/pyaps/issues).
 
-### Quick Links for Contributors
-- [Contributing Guidelines](CONTRIBUTING.md) - Full contribution guide
-- [Commit Convention](.github/COMMIT_CONVENTION.md) - Quick reference for commit messages
+While this is an open source project, please note that we have limited capacity to review external pull requests. If you'd like to contribute code, please open an issue first to discuss your proposal with the maintainers.
+
+For more details, see our [Contributing Guidelines](CONTRIBUTING.md).
+
+### For Developers
+- [Contributing Guidelines](CONTRIBUTING.md) - Participation guidelines and development standards
+- [Commit Convention](.github/COMMIT_CONVENTION.md) - Commit message format reference
 
 ## License
 

@@ -1,211 +1,150 @@
 # Contributing to py-aps
 
-Thank you for your interest in contributing to py-aps! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in py-aps! This document provides information about how the project is developed and how you can participate.
 
-## Getting Started
+## Project Governance
 
-1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/pyaps.git`
-3. Create a new branch: `git checkout -b your-feature-branch`
-4. Make your changes
-5. Commit your changes following our commit convention (see below)
-6. Push to your fork: `git push origin your-feature-branch`
-7. Open a Pull Request
+**py-aps is maintained and developed by voidbox.** While this is an open source project (Apache-2.0 license), development is primarily led by the voidbox team to maintain consistent architecture and quality standards.
 
-## Commit Convention
+## How to Participate
 
-We follow a structured commit message format to maintain a clear and readable project history. All commit messages should follow this pattern:
+### Reporting Issues
+
+We welcome bug reports and feature requests! If you encounter any issues or have suggestions:
+
+1. Check if the issue already exists in [GitHub Issues](https://github.com/voidbox-ai/pyaps/issues)
+2. If not, create a new issue with:
+   - Clear title and description
+   - Steps to reproduce (for bugs)
+   - Expected vs actual behavior
+   - Python version, OS, and relevant environment details
+   - Code examples if applicable
+
+### Pull Requests
+
+**Please note:** We have limited capacity to review and merge external pull requests. If you'd like to contribute code:
+
+1. **Open an issue first** to discuss the proposed changes with the maintainers
+2. Wait for approval before starting significant work
+3. Small bug fixes and documentation improvements are more likely to be accepted than large feature additions
+
+### What We Accept
+
+✅ **More likely to accept:**
+- Bug fixes with test cases
+- Documentation improvements
+- Typo corrections
+- Small refactoring improvements
+
+⚠️ **Less likely to accept:**
+- New features without prior discussion
+- Large architectural changes
+- Breaking changes
+- Dependencies additions
+
+## Development Guidelines
+
+If you receive approval to work on a contribution, please follow these guidelines:
+
+### Commit Convention
+
+We follow a structured commit message format. All commits should follow this pattern:
 
 ```
 <TYPE>: <subject>
 
 [optional body]
-
-[optional footer]
 ```
 
-### Commit Types
+#### Commit Types
 
 - **FEAT**: A new feature
-  ```
-  FEAT: Add OAuth2 authentication flow
-  ```
-
 - **FIX**: A bug fix
-  ```
-  FIX: Resolve token refresh issue in auth module
-  ```
-
 - **DOCS**: Documentation changes
-  ```
-  DOCS: Update authentication examples in README
-  ```
-
 - **BUILD**: Changes to build system or dependencies
-  ```
-  BUILD: Update setuptools version requirement
-  ```
-
 - **CHORE**: Routine tasks, maintenance, or tooling changes
-  ```
-  CHORE: Update .gitignore for Python artifacts
-  ```
-
 - **REFACTOR**: Code changes that neither fix bugs nor add features
-  ```
-  REFACTOR: Simplify data management API client initialization
-  ```
-
 - **TEST**: Adding or updating tests
-  ```
-  TEST: Add unit tests for authentication module
-  ```
 
-### Commit Message Guidelines
+#### Examples
 
-1. **Subject Line**
-   - Use the imperative mood ("Add feature" not "Added feature")
-   - Keep it concise (50 characters or less)
-   - Capitalize the first letter after the type prefix
-   - Do not end with a period
-
-2. **Body** (optional)
-   - Provide additional context about the changes
-   - Explain the "why" behind the change, not just the "what"
-   - Wrap lines at 72 characters
-
-3. **Footer** (optional)
-   - Reference related issues: `Fixes #123` or `Closes #456`
-   - Note breaking changes: `BREAKING CHANGE: Description of the breaking change`
-
-### Examples
-
-**Simple commit:**
 ```
-FEAT: Add support for BIM 360 data management
+FEAT: Add OAuth2 authentication flow
 ```
 
-**Commit with body:**
 ```
-FIX: Resolve authentication token expiration handling
+FIX: Resolve token refresh issue in auth module
 
 The previous implementation did not properly handle token refresh
 when the access token expired during long-running operations.
-This commit adds automatic token refresh logic.
 
 Fixes #42
 ```
 
-**Breaking change:**
-```
-REFACTOR: Change authentication initialization parameters
-
-BREAKING CHANGE: The `auth.Client()` constructor now requires
-`client_id` and `client_secret` as separate parameters instead
-of a single `credentials` dict.
-
-Migration guide:
-- Before: `Client(credentials={'id': '...', 'secret': '...'})`
-- After: `Client(client_id='...', client_secret='...')`
-```
-
-## Code Style
+### Code Style
 
 - Follow [PEP 8](https://pep8.org/) style guide for Python code
 - Use meaningful variable and function names
 - Add docstrings to all public functions and classes
 - Keep functions focused and single-purpose
 
-## Testing
+### Testing
 
-We use `pytest` for testing. All code contributions should include tests.
+All code contributions must include tests.
 
-### Setting Up Testing Environment
+#### Setting Up Testing Environment
 
-1. Install development dependencies:
-   ```bash
-   pip install -e ".[dev]"
-   ```
-
-2. This will install:
-   - `pytest` - Testing framework
-   - `pytest-cov` - Code coverage plugin
-   - `pytest-asyncio` - Async testing support
-
-### Running Tests
-
-Run all tests:
 ```bash
-pytest
+pip install -e ".[dev]"
 ```
 
-Run tests with coverage report:
+#### Running Tests
+
 ```bash
+# Run all tests
+pytest
+
+# Run with coverage
 pytest --cov=pyaps --cov-report=term-missing
 ```
 
-Run specific test file:
-```bash
-pytest tests/test_auth.py
-```
-
-Run specific test function:
-```bash
-pytest tests/test_auth.py::test_oauth_flow
-```
-
-### Writing Tests
+#### Writing Tests
 
 - Place test files in the `tests/` directory
-- Name test files with `test_` prefix (e.g., `test_auth.py`)
-- Name test functions with `test_` prefix (e.g., `def test_oauth_flow()`)
-- Write clear, descriptive test names that explain what is being tested
-- Include docstrings for complex tests
+- Name test files with `test_` prefix
 - Aim for high test coverage (>80%)
+- All tests must pass before PR review
 
-**Example test:**
-```python
-def test_authentication_with_valid_credentials():
-    """Test that authentication succeeds with valid credentials."""
-    client = auth.Client(client_id="valid_id", client_secret="valid_secret")
-    token = client.authenticate()
-    assert token is not None
-    assert token.access_token is not None
-```
+### Pull Request Process
 
-### Test Requirements
+1. Fork the repository
+2. Create a feature branch from `main`
+3. Make your changes following the guidelines above
+4. Ensure all tests pass
+5. Update documentation if needed
+6. Submit PR with clear description
 
-- All new features must include tests
-- All bug fixes must include regression tests
-- Tests must pass on all supported Python versions (3.9, 3.10, 3.11, 3.12)
-- Tests must pass on all platforms (Linux, macOS, Windows)
+**Note:** PRs may take time to review. Large PRs may be closed if not previously discussed with maintainers.
 
-### Continuous Integration
+## Questions and Discussions
 
-All pull requests automatically run tests via GitHub Actions on:
-- Multiple Python versions (3.9, 3.10, 3.11, 3.12)
-- Multiple operating systems (Ubuntu, Windows, macOS)
+For questions about using py-aps or general discussions:
+- Open a [GitHub Discussion](https://github.com/voidbox-ai/pyaps/discussions)
+- Check existing issues and documentation
 
-PRs will only be merged if all tests pass.
-
-## Pull Request Process
-
-1. **Update Documentation**: Update the README.md or relevant documentation for any user-facing changes
-2. **Add Tests**: Include tests that cover your changes
-3. **Follow Commit Convention**: Ensure your commits follow the convention outlined above
-4. **Keep PRs Focused**: One PR should address one feature or fix
-5. **Write Clear PR Description**:
-   - Summarize what the PR does
-   - Reference related issues
-   - Highlight any breaking changes
-   - Include testing instructions if applicable
-
-## Questions?
-
-If you have questions or need help, please:
-- Open an issue on GitHub
-- Check existing issues and discussions
+For security issues, please see our security policy.
 
 ## License
 
 By contributing to py-aps, you agree that your contributions will be licensed under the Apache-2.0 License.
+
+## Development Roadmap
+
+Development priorities are set by the voidbox team. You can follow our progress through:
+- GitHub issues labeled with milestones
+- Release notes
+- Project discussions
+
+---
+
+Thank you for understanding our development model. We appreciate your interest in py-aps!
