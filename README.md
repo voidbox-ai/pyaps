@@ -43,18 +43,39 @@ projects = list(dm.hubs.list_projects(hub_id))
 contents = list(dm.folders.contents(project_id, folder_id))
 ```
 
-For more examples, see `src/pyaps/auth/example.py` and `src/pyaps/datamanagement/example.py`.
+### Design Automation
+```python
+from pyaps.automation import AutomationClient
+
+auto = AutomationClient(token_provider=lambda: token.access_token)
+
+# List engines
+engines = auto.list_engines()
+
+# Create and execute workitem
+workitem = auto.start_workitem({
+    'activityId': 'Owner.MyActivity+prod',
+    'arguments': {...}
+})
+```
+
+For more examples, see `src/pyaps/auth/example.py`, `src/pyaps/datamanagement/example.py`, and `src/pyaps/automation/example.py`.
 
 ## Project Status
 
-**Current version: v0.0.3** - Data Management API support added
+**Current version: v0.0.4** - Design Automation API support added
 
 This package is currently in early development. Active development is underway by **voidbox**.
 
-### Version History
+<details>
+<summary><b>Version History</b></summary>
+
+- **v0.0.4** - Added Design Automation API client (Engines, AppBundles, Activities, WorkItems)
 - **v0.0.3** - Added Data Management API client (Hubs, Projects, Folders, Items, Versions, Buckets, Objects)
 - **v0.0.2** - Added OAuth 2.0 authentication client with 2-legged/3-legged flows, PKCE support, and token management
 - **v0.0.1** - Initial package release (placeholder)
+
+</details>
 
 ## Contributing
 
