@@ -41,17 +41,27 @@ class WorkItemSpec:
     WorkItem 생성 요청
     - activity_id 예시: '{nickname}.{activity}+{alias}' 또는 '{owner}.{activity}+{alias}'
     - arguments: Activity에서 선언한 파라미터 이름을 key로 사용
+    - on_complete: WorkItem 완료 시 호출될 콜백 URL (HTTP POST)
+    - on_progress: WorkItem 진행 상황 업데이트 시 호출될 콜백 URL (HTTP POST)
     """
     activity_id: str
     arguments: Dict[str, WorkItemArgument] = field(default_factory=dict)
     nickname: Optional[str] = None
+    on_complete: Optional[str] = None
+    on_progress: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        d: Dict[str, Any] = {
             "activityId": self.activity_id,
             "arguments": {k: v.to_dict() for k, v in self.arguments.items()},
-            **({"nickname": self.nickname} if self.nickname else {}),
         }
+        if self.nickname:
+            d["nickname"] = self.nickname
+        if self.on_complete:
+            d["onComplete"] = self.on_complete
+        if self.on_progress:
+            d["onProgress"] = self.on_progress
+        return d
 
 @dataclass
 class AppBundleSpec:
