@@ -16,7 +16,7 @@ py-aps is a Python SDK that provides a simple and intuitive interface for intera
 
 - **Authentication**: Easy OAuth2 authentication flow
 - **Data Management**: Access and manage files in BIM 360, ACC, and other Autodesk cloud storage
-- **Automation**: Automate design and engineering workflows
+- **Automation**: High-level workflow API for executing WorkItems with automatic file management and webhook support
 
 ## Quick Start
 
@@ -43,7 +43,33 @@ projects = list(dm.hubs.list_projects(hub_id))
 contents = list(dm.folders.contents(project_id, folder_id))
 ```
 
-### Design Automation
+### Automation (High-Level Workflow)
+```python
+from pyaps.automation import AutomationWorkflow
+
+workflow = AutomationWorkflow(
+    automation_client=auto_client,
+    data_client=dm_client,
+    default_bucket="my-bucket",
+)
+
+# Execute WorkItem with automatic file management
+result = workflow.run_workitem_with_files(
+    activity_id="Owner.MyActivity+prod",
+    input_files={"inputFile": "path/to/input.rvt"},
+    output_files={"outputFile": "output.rvt"},
+)
+
+# With webhooks (no polling required)
+result = workflow.run_workitem_with_files(
+    activity_id="Owner.MyActivity+prod",
+    input_files={"inputFile": "input.rvt"},
+    output_files={"outputFile": "output.rvt"},
+    on_complete_url="https://myapp.com/webhook/complete",
+)
+```
+
+### Automation (Low-Level API)
 ```python
 from pyaps.automation import AutomationClient
 
@@ -52,25 +78,31 @@ auto = AutomationClient(token_provider=lambda: token.access_token)
 # List engines
 engines = auto.list_engines()
 
-# Create and execute workitem
+# Start workitem (manual setup required)
 workitem = auto.start_workitem({
     'activityId': 'Owner.MyActivity+prod',
     'arguments': {...}
 })
 ```
 
-For more examples, see `src/pyaps/auth/example.py`, `src/pyaps/datamanagement/example.py`, and `src/pyaps/automation/example.py`.
+For more examples and detailed documentation:
+- **AutomationWorkflow Guide**: `src/pyaps/automation/WORKFLOW.md`
+- **Workflow Examples**: `src/pyaps/automation/workflow_example.py`
+- **Low-Level Examples**: `src/pyaps/automation/example.py`
+- **Auth Examples**: `src/pyaps/auth/example.py`
+- **Data Management Examples**: `src/pyaps/datamanagement/example.py`
 
 ## Project Status
 
-**Current version: v0.0.4** - Design Automation API support added
+**Current version: v0.0.5** - High-level Automation Workflow API added
 
 This package is currently in early development. Active development is underway by **voidbox**.
 
 <details>
 <summary><b>Version History</b></summary>
 
-- **v0.0.4** - Added Design Automation API client (Engines, AppBundles, Activities, WorkItems)
+- **v0.0.5** - Added AutomationWorkflow high-level API with automatic file management, webhook support (onComplete/onProgress), batch processing, and comprehensive documentation
+- **v0.0.4** - Added Automation API client (Engines, AppBundles, Activities, WorkItems)
 - **v0.0.3** - Added Data Management API client (Hubs, Projects, Folders, Items, Versions, Buckets, Objects)
 - **v0.0.2** - Added OAuth 2.0 authentication client with 2-legged/3-legged flows, PKCE support, and token management
 - **v0.0.1** - Initial package release (placeholder)
