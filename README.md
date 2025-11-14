@@ -17,6 +17,7 @@ py-aps is a Python SDK that provides a simple and intuitive interface for intera
 - **Authentication**: Easy OAuth2 authentication flow
 - **Data Management**: Access and manage files in BIM 360, ACC, and other Autodesk cloud storage
 - **Automation**: High-level workflow API for executing WorkItems with automatic file management and webhook support
+- **Proxy Support**: HTTP/HTTPS proxy configuration for enterprise environments (v0.0.6+)
 
 ## Quick Start
 
@@ -85,22 +86,44 @@ workitem = auto.start_workitem({
 })
 ```
 
+### Proxy Configuration (v0.0.6+)
+```python
+# Explicit proxy configuration
+client = AuthClient(
+    client_id="...",
+    client_secret="...",
+    proxies={
+        'http': 'http://proxy.company.com:8080',
+        'https': 'https://proxy.company.com:8080'
+    }
+)
+
+# Or use environment variables (HTTP_PROXY, HTTPS_PROXY)
+client = AuthClient(
+    client_id="...",
+    client_secret="...",
+    trust_env=True  # Default - reads from environment
+)
+```
+
 For more examples and detailed documentation:
 - **AutomationWorkflow Guide**: `src/pyaps/automation/WORKFLOW.md`
 - **Workflow Examples**: `src/pyaps/automation/workflow_example.py`
 - **Low-Level Examples**: `src/pyaps/automation/example.py`
 - **Auth Examples**: `src/pyaps/auth/example.py`
 - **Data Management Examples**: `src/pyaps/datamanagement/example.py`
+- **Proxy Examples**: `src/pyaps/http/proxy_example.py`
 
 ## Project Status
 
-**Current version: v0.0.5** - High-level Automation Workflow API added
+**Current version: v0.0.6** - Proxy support for enterprise environments
 
 This package is currently in early development. Active development is underway by **voidbox**.
 
 <details>
 <summary><b>Version History</b></summary>
 
+- **v0.0.6** - Added HTTP/HTTPS proxy support for enterprise environments (configurable via explicit settings or environment variables)
 - **v0.0.5** - Added AutomationWorkflow high-level API with automatic file management, webhook support (onComplete/onProgress), batch processing, and comprehensive documentation
 - **v0.0.4** - Added Automation API client (Engines, AppBundles, Activities, WorkItems)
 - **v0.0.3** - Added Data Management API client (Hubs, Projects, Folders, Items, Versions, Buckets, Objects)

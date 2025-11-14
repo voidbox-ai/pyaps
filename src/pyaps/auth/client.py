@@ -37,7 +37,24 @@ class AuthClient:
         user_agent: str = "pyaps-auth",
         cache_prefix: str = "aps",
         session: Optional[requests.Session] = None,
+        proxies: Optional[Dict[str, str]] = None,
+        trust_env: bool = True,
     ) -> None:
+        """
+        Args:
+            client_id: APS Client ID
+            client_secret: APS Client Secret (2-legged 필수)
+            redirect_uri: Redirect URI (3-legged 필수)
+            store: Token storage implementation
+            auth_base_url: Authentication API base URL
+            userprofile_base_url: UserProfile API base URL
+            timeout: 요청 타임아웃 (초)
+            user_agent: User-Agent 헤더 값
+            cache_prefix: Cache key prefix
+            session: 커스텀 requests.Session (선택)
+            proxies: 프록시 설정 (선택)
+            trust_env: 환경 변수에서 프록시 읽기 (기본: True)
+        """
         self.client_id = client_id
         self.client_secret = client_secret
         self.redirect_uri = redirect_uri
@@ -56,6 +73,8 @@ class AuthClient:
             user_agent=user_agent,
             timeout=timeout,
             session=session,
+            proxies=proxies,
+            trust_env=trust_env,
         )
         self.http_userprofile = HTTPClient(
             _token_provider,
@@ -63,6 +82,8 @@ class AuthClient:
             user_agent=user_agent,
             timeout=timeout,
             session=session,
+            proxies=proxies,
+            trust_env=trust_env,
         )
 
         # Public facades

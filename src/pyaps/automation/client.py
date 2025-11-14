@@ -27,7 +27,19 @@ class AutomationClient:
         user_agent: str = "pyaps-automation",
         timeout: float = 30.0,
         session: Optional[requests.Session] = None,
+        proxies: Optional[Dict[str, str]] = None,
+        trust_env: bool = True,
     ) -> None:
+        """
+        Args:
+            token_provider: APS 액세스 토큰 제공 함수
+            region: Design Automation 리전 (us-east, eu-west)
+            user_agent: User-Agent 헤더 값
+            timeout: 요청 타임아웃 (초)
+            session: 커스텀 requests.Session (선택)
+            proxies: 프록시 설정 (선택)
+            trust_env: 환경 변수에서 프록시 읽기 (기본: True)
+        """
         base_url = f"https://developer.api.autodesk.com/da/{region}/v3"
         self.http = HTTPClient(
             token_provider,
@@ -35,6 +47,8 @@ class AutomationClient:
             user_agent=user_agent,
             timeout=timeout,
             session=session,
+            proxies=proxies,
+            trust_env=trust_env,
         )
 
     # ------- ForgeApps -------
