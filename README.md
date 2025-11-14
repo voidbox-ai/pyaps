@@ -116,13 +116,14 @@ For more examples and detailed documentation:
 
 ## Project Status
 
-**Current version: v0.0.6** - Proxy support for enterprise environments
+**Current version: v0.0.7** - Proxy support for enterprise environments
 
 This package is currently in early development. Active development is underway by **voidbox**.
 
 <details>
 <summary><b>Version History</b></summary>
 
+- **v0.0.7** - Fixed proxy support in AutomationWorkflow.download_output_file() to properly use session
 - **v0.0.6** - Added HTTP/HTTPS proxy support for enterprise environments (configurable via explicit settings or environment variables)
 - **v0.0.5** - Added AutomationWorkflow high-level API with automatic file management, webhook support (onComplete/onProgress), batch processing, and comprehensive documentation
 - **v0.0.4** - Added Automation API client (Engines, AppBundles, Activities, WorkItems)

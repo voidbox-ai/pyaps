@@ -287,9 +287,8 @@ class AutomationWorkflow:
         )
         url = signed.get("url") or signed.get("signedUrl")
 
-        # 파일 다운로드
-        import requests
-        response = requests.get(url, timeout=300)
+        # 파일 다운로드 (프록시 설정 적용을 위해 DataManagementClient의 session 사용)
+        response = self.dm.http_oss.session.get(url, timeout=300)
         response.raise_for_status()
 
         local_path = Path(local_path)
