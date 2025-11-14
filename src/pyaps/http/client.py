@@ -24,6 +24,7 @@ class HTTPClient:
     - 기본 JSON Accept/Content-Type 처리
     - stream/raw/text/json 응답 모드 지원
     - 간단한 재시도(backoff) 옵션
+    - 프록시 지원 (환경 변수 자동 감지 또는 명시적 설정)
     """
 
     def __init__(
@@ -35,13 +36,35 @@ class HTTPClient:
         timeout: float = 30.0,
         session: Optional[requests.Session] = None,
         default_headers: Optional[Dict[str, str]] = None,
+        proxies: Optional[Dict[str, str]] = None,
+        trust_env: bool = True,
     ) -> None:
+        """
+        Args:
+            token_provider: APS 액세스 토큰 제공 함수
+            base_url: API base URL (선택)
+            user_agent: User-Agent 헤더 값
+            timeout: 요청 타임아웃 (초)
+            session: 커스텀 requests.Session (선택)
+            default_headers: 기본 헤더 (선택)
+            proxies: 프록시 설정 (선택)
+                예: {'http': 'http://proxy.com:8080', 'https': 'https://proxy.com:8080'}
+                예: {'http': 'http://user:pass@proxy.com:8080'}
+            trust_env: 환경 변수(HTTP_PROXY, HTTPS_PROXY)에서 프록시 읽기 (기본: True)
+        """
         self._tp = token_provider
         self.base_url = base_url.rstrip("/") if base_url else None
         self.user_agent = user_agent
         self.timeout = timeout
         self.session = session or requests.Session()
         self.default_headers = default_headers or {}
+
+        # 프록시 설정
+        if proxies:
+            self.session.proxies.update(proxies)
+
+        # 환경 변수에서 프록시 읽기 (trust_env=False이면 비활성화)
+        self.session.trust_env = trust_env
 
     # ------------ low-level ------------
     def _auth_headers(self, json_ct: bool = True) -> Dict[str, str]:

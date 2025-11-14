@@ -27,18 +27,35 @@ class DataManagementClient:
         timeout: float = 30.0,
         user_agent: str = "pyaps-dm",
         session: Optional[requests.Session] = None,
+        proxies: Optional[Dict[str, str]] = None,
+        trust_env: bool = True,
     ) -> None:
+        """
+        Args:
+            token_provider: APS 액세스 토큰 제공 함수
+            project_base_url: Project API base URL
+            data_base_url: Data API base URL
+            oss_base_url: OSS API base URL
+            timeout: 요청 타임아웃 (초)
+            user_agent: User-Agent 헤더 값
+            session: 커스텀 requests.Session (선택)
+            proxies: 프록시 설정 (선택)
+            trust_env: 환경 변수에서 프록시 읽기 (기본: True)
+        """
         self.http_project = HTTPClient(
             token_provider, base_url=project_base_url,
-            user_agent=user_agent, timeout=timeout, session=session
+            user_agent=user_agent, timeout=timeout, session=session,
+            proxies=proxies, trust_env=trust_env
         )
         self.http_data = HTTPClient(
             token_provider, base_url=data_base_url,
-            user_agent=user_agent, timeout=timeout, session=session
+            user_agent=user_agent, timeout=timeout, session=session,
+            proxies=proxies, trust_env=trust_env
         )
         self.http_oss = HTTPClient(
             token_provider, base_url=oss_base_url,
-            user_agent=user_agent, timeout=timeout, session=session
+            user_agent=user_agent, timeout=timeout, session=session,
+            proxies=proxies, trust_env=trust_env
         )
 
         # public facades
